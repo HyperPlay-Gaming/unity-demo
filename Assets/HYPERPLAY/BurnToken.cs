@@ -11,11 +11,11 @@ public class BurnToken : MonoBehaviour
     {
         string account = await GetAccount();
 
-        // call publicBurn function https://docs.hyperplaygaming.com/api/rpc-endpoint/rpc-call-examples/send-transaction
-        string jsonString = "{ \"request\": { \"method\": \"eth_sendTransaction\", \"params\": [{ \"from\": \"" + account + "\", \"to\": \"0xDD6ff2bA7fD02D19e8e4e1d99b65802eD9705437\", \"value\": \"0\", \"data\": \"0x14f97b63\" }] }, \"chain\": { \"chainId\": \"5\" } }";
+        // call publicMint function https://docs.hyperplaygaming.com/api/send-contract-endpoint
+        string jsonString = "{ \"contractAddress\": \"0xDD6ff2bA7fD02D19e8e4e1d99b65802eD9705437\", \"functionName\": \"publicBurn\", \"params\": [], \"abi\": [{ \"inputs\": [], \"name\": \"publicBurn\", \"outputs\": [], \"stateMutability\": \"nonpayable\", \"type\": \"function\" }, { \"inputs\": [], \"name\": \"publicMint\", \"outputs\": [], \"stateMutability\": \"nonpayable\", \"type\": \"function\" }], \"valueInWei\": \"0\", \"chain\": { \"chainId\": \"5\" } }";
         byte[] jsonBytes = System.Text.Encoding.UTF8.GetBytes(jsonString);
 
-        UnityWebRequest request = new UnityWebRequest("localhost:9680/rpc", "POST");
+        UnityWebRequest request = new UnityWebRequest("localhost:9680/sendContract", "POST");
         request.uploadHandler = new UploadHandlerRaw(jsonBytes);
         request.downloadHandler = new DownloadHandlerBuffer();
         request.SetRequestHeader("Content-Type", "application/json");
